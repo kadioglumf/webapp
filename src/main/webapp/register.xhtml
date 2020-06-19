@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Register</title>
+
+</h:head>
+<style type="text/css">
+    .error {
+        color: red;
+    }
+
+    .success {
+        color: green;
+    }
+    .container{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border:double;
+
+    }
+</style>
+<h:body>
+    <ui:include src="navbar.xhtml"></ui:include>
+    <div class="container">
+    <h:form>
+        <p:growl id="message" life="2000" />
+        <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+            <h:outputText value="Username: "/>
+            <p:inputText id="username" value="#{register.username}">
+                <p:ajax update="username-validation" listener="#{register.usernameValidation()}"/>
+            </p:inputText>
+            <h:outputText id="username-validation" styleClass="#{register.usernameValidationStyle ? 'success' : 'error'}"
+                          value="#{register.usernameValidation()}" />
+
+            <h:outputText value="Password: "/>
+            <p:password id="password" value="#{register.password}" feedback="true"
+                        promptLabel="Please enter a password" weakLabel="Weak"
+                        goodLabel="Good" strongLabel="Strong">
+                <p:ajax update="password-validation" listener="#{register.passwordValidation()}"/>
+            </p:password>
+            <h:outputText id="password-validation"  styleClass="#{register.passwordValidationStyle ? 'success' : 'error'}"
+                          value="#{register.passwordValidation()}" />
+
+            <h:outputText value="Confirm Password: "/>
+            <p:password id="password-confirm" value="#{register.confirmPassword}">
+                <p:ajax update="password-confirm-validation" listener="#{register.confirmPasswordValidation()}"/>
+            </p:password>
+            <h:outputText id="password-confirm-validation" styleClass="#{register.confirmPasswordValidationStyle ? 'success' : 'error'}"
+                          value="#{register.confirmPasswordValidation()}" />
+
+            <h:outputText value="Email: "/>
+            <p:inputText id="email" value="#{register.email}">
+                <p:ajax update="email-validation" listener="#{register.emailValidation()}"/>
+            </p:inputText>
+            <h:outputText id="email-validation" styleClass="#{register.emailValidationStyle ? 'success' : 'error'}"
+                          value="#{register.emailValidation()}" />
+
+            <h:outputText value="Phone: "/>
+            <p:inputText id="phone" value="#{register.phone}">
+                <p:ajax update="phone-validation" listener="#{register.phoneValidation()}"/>
+            </p:inputText>
+            <h:outputText id="phone-validation" styleClass="#{register.phoneValidationStyle ? 'success' : 'error'}"
+                          value="#{register.phoneValidation()}" />
+
+            <p:outputLabel for="@next" value="Country:" />
+            <p:selectOneMenu id="country" value="#{register.country}" style="width:125px">
+                <f:selectItem itemLabel="Select One" itemValue="" />
+                <f:selectItem itemLabel="Turkey" itemValue="Turkey" />
+                <f:selectItem itemLabel="England" itemValue="England" />
+                <f:selectItem itemLabel="Netherlands" itemValue="Netherlands" />
+                <p:ajax update="country-validation" listener="#{register.countryValidation()}"/>
+            </p:selectOneMenu>
+            <h:outputText id="country-validation" styleClass="#{register.countryValidationStyle ? 'success' : 'error'}"
+                          value="#{register.countryValidation()}" />
+
+            <p:commandButton value="Signup" id="signup" update="message" action="#{register.signUp()}"
+                             style="margin-right:20px;"/>
+        </h:panelGrid>
+    </h:form>
+    </div>
+</h:body>
+
+</html>

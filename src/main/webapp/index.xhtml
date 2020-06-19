@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Home</title>
+</h:head>
+
+<h:body>
+
+    <style type="text/css">
+        #contact {
+             width: 50%;
+             background: #f9f9f9;
+             padding: 25px;
+             margin: 20px 0;
+             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+         }
+        #contact inputText[type="text"],
+        #contact inputTextarea {
+            width: 100%;
+            border: 1px solid #ccc;
+            background: #fff;
+            margin: 0 0 5px;
+            padding: 10px;
+        }
+
+        .fieldset {
+            border: medium none !important;
+            margin: 0 0 10px;
+            min-width: 100%;
+            padding: 0;
+            width: 100%;
+        }
+
+        .contact-button{
+            cursor: pointer;
+            width: 100% !important;
+            border: none;
+            background: #4caf50 !important;
+            color: #fff;
+            margin: 0 0 5px;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+    </style>
+    <ui:include src="navbar.xhtml"/>
+
+    <sec:authorize access="hasRole('USER')">
+        <h:form id="contact">
+            <p:growl id="growl" life="2000"/>
+            <p:panel header="Contact Us" style="width:98%;" id="messagecontext">
+                    <h:outputLabel for="subject" value="Subject: " />
+                    <p:inputText id="subject" value="#{home.subject}" styleClass="fieldset"/>
+                    <h:outputLabel for="message" value="Message: "/>
+                    <p:inputTextarea id="message" value="#{home.message}" styleClass="fieldset"/>
+
+                <p:commandButton value="Send Message" ajax="false" action="#{home.sendMessage}"
+                                 styleClass="contact-button" update="growl"/>
+            </p:panel>
+        </h:form>
+    </sec:authorize>
+
+    <br></br>
+
+    <h:form onsubmit="this.action='#{request.contextPath}/logout';">
+        <p:commandButton value="Logout" ajax="false"/>
+    </h:form>
+
+
+</h:body>
+
+</html>
