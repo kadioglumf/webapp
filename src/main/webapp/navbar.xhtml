@@ -42,6 +42,11 @@
                 <f:param name="i" value="5"/>
             </p:menuitem>
         </sec:authorize>
+        <sec:authorize access="hasAuthority('ROLE_USER')">
+            <p:menuitem value="Order" outcome="/order.xhtml">
+                <f:param name="i" value="6"/>
+            </p:menuitem>
+        </sec:authorize>
 
     </p:tabMenu>
 

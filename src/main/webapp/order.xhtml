@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Order</title>
+</h:head>
+
+<h:body>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+        .label {
+            width:20%;
+            padding:4px;
+        }
+
+        .value {
+            width:80%;
+            padding:4px;
+        }
+
+        .grid {
+            width:100%;
+        }
+
+        .outputLabel {
+            font-weight: bold;
+        }
+
+        .grid {
+            width:33%;
+            padding:4px;
+        }
+
+        .tick:after {
+            content: "\2713";
+            color: green;
+        }
+    </style>
+
+
+    <h:form>
+        <p:growl id="growl" sticky="true" showDetail="true"/>
+
+        <p:wizard flowListener="#{order.onFlowProcess}">
+
+            <p:tab id="address" title="Shipping Address">
+
+                <p:panel header="Address Details">
+                    <p:messages />
+                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                        <h:outputText value="Name: " />
+                        <p:inputText id="name" value="#{order.address.name}" required="true" label="Name" placeholder="Name">
+                        </p:inputText>
+
+                        <h:outputText value="Phone Number: " />
+                        <p:inputText value="#{order.address.phoneNumber}" required="true" label="phone" placeholder="Phone Number"/>
+
+                        <p:outputLabel for="country" value="Country: " />
+                        <p:selectOneMenu id="country" value="#{order.address.country}" style="width:150px">
+                            <p:ajax listener="#{order.onCountryChange}" update="city" />
+                            <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{order.countries}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="city" value="City: " />
+                        <p:selectOneMenu id="city" value="#{order.address.city}" style="width:150px">
+                            <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{order.cities}" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Postal Code: " />
+                        <p:inputText value="#{order.address.postalCode}" required="true" label="postalCode" />
+
+                        <h:outputText value="Address Detail: " />
+                        <p:inputTextarea value="#{order.address.detail}" required="true" label="Detail" />
+
+                        <h:outputText value=" Ship to the same address: " />
+                        <h:selectBooleanCheckbox value="#{order.skip}" />
+
+                    </h:panelGrid>
+
+
+                </p:panel>
+            </p:tab>
+
+            <p:tab id="invoice-addres" title="Billing Address">
+                <p:panel header="Address Details">
+                    <p:messages />
+                    <h:panelGrid columns="2" columnClasses="label, value">
+
+                        <h:outputText value="Name: " />
+                        <p:inputText id="invoice-name" value="#{order.address2.name}" required="true" label="Name" placeholder="Name">
+                        </p:inputText>
+
+                        <h:outputText value="Phone Number: " />
+                        <p:inputText value="#{order.address2.phoneNumber}" required="true" label="phone" placeholder="Phone Number"/>
+
+                        <p:outputLabel for="country" value="Country: " />
+                        <p:selectOneMenu id="invoice-country" value="#{order.address2.country}" style="width:150px">
+                            <p:ajax listener="#{order.onCountryChangeBilling}" update="city" />
+                            <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{order.countries}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="invoice-city" value="City: " />
+                        <p:selectOneMenu id="invoice-city" value="#{order.address2.city}" style="width:150px">
+                            <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{order.cities2}" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Postal Code: " />
+                        <p:inputText value="#{order.address2.postalCode}" required="true" label="postalCode" />
+
+                        <h:outputText value="Address Detail: " />
+                        <p:inputTextarea value="#{order.address2.detail}" required="true" label="Detail" />
+
+                    </h:panelGrid>
+
+
+                </p:panel>
+            </p:tab>
+
+
+            <p:tab id="confirm" title="Confirmation">
+                <p:panel header="Confirmation">
+                    <h:panelGrid id="confirmation" columns="2" columnClasses="grid,grid" style="width: 80%">
+
+                        <p:panel header="Ship to" style="margin-right: 40px">
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputText value="Name: " />
+                                <h:outputText value="#{order.address.name}"  styleClass="outputLabel"/>
+
+                                <h:outputText value="Phone Number: " />
+                                <h:outputText value="#{order.address.phoneNumber}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Country: " />
+                                <h:outputText value="#{order.address.country}" styleClass="outputLabel"/>
+
+                                <h:outputText value="City: " />
+                                <h:outputText value="#{order.address.city}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Postal Code: " />
+                                <h:outputText value="#{order.address.postalCode}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Address Detail: " />
+                                <h:outputText value="#{order.address.detail}" styleClass="outputLabel"/>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                        <p:panel header="Invoice Address">
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputText value="Name: " />
+                                <h:outputText value="#{order.address2.name}"  styleClass="outputLabel"/>
+
+                                <h:outputText value="Phone Number: " />
+                                <h:outputText value="#{order.address2.phoneNumber}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Country: " />
+                                <h:outputText value="#{order.address2.country}" styleClass="outputLabel"/>
+
+                                <h:outputText value="City: " />
+                                <h:outputText value="#{order.address2.city}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Postal Code: " />
+                                <h:outputText value="#{order.address2.postalCode}" styleClass="outputLabel"/>
+
+                                <h:outputText value="Address Detail: " />
+                                <h:outputText value="#{order.address2.detail}" styleClass="outputLabel"/>
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </h:panelGrid>
+
+
+                </p:panel>
+                <p:commandButton value="Submit" action="#{order.save()}" update="growl" process="@this"
+                                 style="float: right; margin-top: 3px;"/>
+
+            </p:tab>
+
+        </p:wizard>
+    </h:form>
+
+</h:body>
+
+</html>

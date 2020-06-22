@@ -1,8 +1,8 @@
 package com.kadioglumf.primefaces.models;
 
-import javax.faces.annotation.ManagedProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 
 @Entity
@@ -24,21 +24,20 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "country")
-    private String country;
-
     @Column(name = "email")
     private String email;
 
     @Column(name = "enabled")
     @NotNull
     private Boolean enabled;
+/*
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "district")
-    private String district;
+ */
+    @OneToMany(mappedBy = "user")
+    private Set<Address> address;
 
     public User() {
     }
@@ -75,14 +74,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -99,20 +90,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getCity() {
-        return city;
+    public Set<Address> getAddress() {
+        return address;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setAddress(Set<Address> address) {
+        this.address = address;
     }
 
     @Override
@@ -122,11 +105,9 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", country='" + country + '\'' +
                 ", email='" + email + '\'' +
                 ", enabled=" + enabled +
-                ", city='" + city + '\'' +
-                ", district='" + district + '\'' +
+                ", address=" + address +
                 '}';
     }
 }

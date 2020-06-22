@@ -38,43 +38,44 @@
         <p:growl id="message" life="2000" />
         <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
             <h:outputText value="Username: "/>
-            <p:inputText id="username" value="#{register.username}">
-                <p:ajax update="username-validation" listener="#{register.usernameValidation()}"/>
+            <p:inputText id="username" value="#{register1.username}">
+                <p:ajax update="username-validation" listener="#{register1.usernameValidation()}"/>
             </p:inputText>
-            <h:outputText id="username-validation" styleClass="#{register.usernameValidationStyle ? 'success' : 'error'}"
-                          value="#{register.usernameValidation()}" />
+            <h:outputText id="username-validation" styleClass="#{register1.usernameValidationStyle ? 'success' : 'error'}"
+                          value="#{register1.usernameValidation()}" />
 
             <h:outputText value="Password: "/>
-            <p:password id="password" value="#{register.password}" feedback="true"
+            <p:password id="password" value="#{register1.password}" feedback="true"
                         promptLabel="Please enter a password" weakLabel="Weak"
                         goodLabel="Good" strongLabel="Strong">
-                <p:ajax update="password-validation" listener="#{register.passwordValidation()}"/>
+                <p:ajax update="password-validation" listener="#{register1.passwordValidation()}"/>
             </p:password>
-            <h:outputText id="password-validation"  styleClass="#{register.passwordValidationStyle ? 'success' : 'error'}"
-                          value="#{register.passwordValidation()}" />
+            <h:outputText id="password-validation"  styleClass="#{register1.passwordValidationStyle ? 'success' : 'error'}"
+                          value="#{register1.passwordValidation()}" />
 
             <h:outputText value="Confirm Password: "/>
-            <p:password id="password-confirm" value="#{register.confirmPassword}">
-                <p:ajax update="password-confirm-validation" listener="#{register.confirmPasswordValidation()}"/>
+            <p:password id="password-confirm" value="#{register1.confirmPassword}">
+                <p:ajax update="password-confirm-validation" listener="#{register1.confirmPasswordValidation()}"/>
             </p:password>
-            <h:outputText id="password-confirm-validation" styleClass="#{register.confirmPasswordValidationStyle ? 'success' : 'error'}"
-                          value="#{register.confirmPasswordValidation()}" />
+            <h:outputText id="password-confirm-validation" styleClass="#{register1.confirmPasswordValidationStyle ? 'success' : 'error'}"
+                          value="#{register1.confirmPasswordValidation()}" />
 
             <h:outputText value="Email: "/>
-            <p:inputText id="email" value="#{register.email}">
-                <p:ajax update="email-validation" listener="#{register.emailValidation()}"/>
+            <p:inputText id="email" value="#{register1.email}">
+                <p:ajax update="email-validation" listener="#{register1.emailValidation()}"/>
             </p:inputText>
-            <h:outputText id="email-validation" styleClass="#{register.emailValidationStyle ? 'success' : 'error'}"
-                          value="#{register.emailValidation()}" />
+            <h:outputText id="email-validation" styleClass="#{register1.emailValidationStyle ? 'success' : 'error'}"
+                          value="#{register1.emailValidation()}" />
 
             <h:outputText value="Phone: "/>
-            <p:inputText id="phone" value="#{register.phone}">
-                <p:ajax update="phone-validation" listener="#{register.phoneValidation()}"/>
+            <p:inputText id="phone" value="#{register1.phone}">
+                <p:ajax update="phone-validation" listener="#{register1.phoneValidation()}"/>
             </p:inputText>
-            <h:outputText id="phone-validation" styleClass="#{register.phoneValidationStyle ? 'success' : 'error'}"
-                          value="#{register.phoneValidation()}" />
-
+            <h:outputText id="phone-validation" styleClass="#{register1.phoneValidationStyle ? 'success' : 'error'}"
+                          value="#{register1.phoneValidation()}" />
+            <!--
             <p:outputLabel for="@next" value="Country:" />
+
             <p:selectOneMenu id="country" value="#{register.country}" style="width:125px">
                 <f:selectItem itemLabel="Select One" itemValue="" />
                 <f:selectItem itemLabel="Turkey" itemValue="Turkey" />
@@ -84,8 +85,8 @@
             </p:selectOneMenu>
             <h:outputText id="country-validation" styleClass="#{register.countryValidationStyle ? 'success' : 'error'}"
                           value="#{register.countryValidation()}" />
-
-            <p:commandButton value="Signup" id="signup" update="message" action="#{register.signUp()}"
+            -->
+            <p:commandButton value="Signup" id="signup" update="message" action="#{register1.signUp()}"
                              style="margin-right:20px;"/>
         </h:panelGrid>
     </h:form>

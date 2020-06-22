@@ -14,9 +14,5 @@ public class DemoApplication {
 
     }
 
-    @Bean
-    public StepsRenderer stepsRenderer(){
-        return new StepsRenderer();
-    }
 
 }

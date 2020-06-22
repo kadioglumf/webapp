@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Named("register")
+@Named("register1")
 @SessionScoped
 public class RegisterController implements Serializable {
     private String username;
@@ -30,8 +30,6 @@ public class RegisterController implements Serializable {
     private boolean passwordValidationStyle = true;
     private String confirmPassword;
     private boolean confirmPasswordValidationStyle = true;
-    private String country;
-    private boolean countryValidationStyle = true;
     private String phone;
     private boolean phoneValidationStyle = true;
     private String email;
@@ -75,14 +73,6 @@ public class RegisterController implements Serializable {
         this.confirmPassword = confirmPassword;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -121,14 +111,6 @@ public class RegisterController implements Serializable {
 
     public void setConfirmPasswordValidationStyle(boolean confirmPasswordValidationStyle) {
         this.confirmPasswordValidationStyle = confirmPasswordValidationStyle;
-    }
-
-    public boolean isCountryValidationStyle() {
-        return countryValidationStyle;
-    }
-
-    public void setCountryValidationStyle(boolean countryValidationStyle) {
-        this.countryValidationStyle = countryValidationStyle;
     }
 
     public boolean isPhoneValidationStyle() {
@@ -234,29 +216,15 @@ public class RegisterController implements Serializable {
         }
     }
 
-    public String countryValidation() {
-        if (country == null) {
-            return "";
-        }
-        if (country.equals("")) {
-            countryValidationStyle = false;
-            return "Country must be required!";
-        } else {
-            countryValidationStyle = true;
-            return "Good";
-        }
-    }
-
     public void signUp() throws IOException {
         if (usernameValidationStyle && passwordValidationStyle && confirmPasswordValidationStyle
-            && emailValidationStyle && phoneValidationStyle && countryValidationStyle) {
+            && emailValidationStyle && phoneValidationStyle) {
             if (userRepository.findByUserName(username) == null) {
                 User user = new User();
                 user.setId(null);
                 user.setUsername(username);
                 user.setPassword(passwordEncoder.encode(password));
                 user.setEmail(email);
-                user.setCountry(country);
                 user.setPhone(phone);
                 user.setEnabled(true);
 
@@ -299,7 +267,6 @@ public class RegisterController implements Serializable {
         RegisterController that = (RegisterController) o;
         return Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
-                Objects.equals(country, that.country) &&
                 Objects.equals(phone, that.phone) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(userRepository, that.userRepository);
@@ -307,6 +274,6 @@ public class RegisterController implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, country, phone, email, userRepository);
+        return Objects.hash(username, password, phone, email, userRepository);
     }
 }
