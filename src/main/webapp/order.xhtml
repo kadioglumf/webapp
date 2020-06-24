@@ -62,14 +62,21 @@
 
                 <p:panel header="Address Details">
                     <p:messages />
-                    <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:panelGrid columns="3" cellpadding="5">
 
                         <h:outputText value="Name: " />
-                        <p:inputText id="name" value="#{order.address.name}" required="true" label="Name" placeholder="Name">
+                        <p:inputText id="name" value="#{order.address.name}" required="true" label="Name">
+                            <p:ajax update="name-validation" listener="#{order.nameValidation()}"/>
                         </p:inputText>
+                        <h:outputText id="name-validation" styleClass="#{order.nameValidationStyle ? 'tick' : 'error'}"
+                                      value="#{order.nameValidation()}" />
 
                         <h:outputText value="Phone Number: " />
-                        <p:inputText value="#{order.address.phoneNumber}" required="true" label="phone" placeholder="Phone Number"/>
+                        <p:inputMask id="phone" value="#{order.address.phoneNumber}" mask="(999) 999-9999">
+                            <p:ajax update="phone-validation" listener="#{order.nameValidation()}"/>
+                        </p:inputMask>
+                        <h:outputText id="phone-validation"  styleClass="#{order.phoneValidationStyle ? 'tick' : 'error'}"
+                                       value="#{order.phoneValidation()}" />
 
                         <p:outputLabel for="country" value="Country: " />
                         <p:selectOneMenu id="country" value="#{order.address.country}" style="width:150px">
@@ -77,18 +84,28 @@
                             <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{order.countries}" />
                         </p:selectOneMenu>
+                        <h:outputText  styleClass="#{order.nameValidationStyle ? 'success' : 'error'}"
+                                       value="#{order.nameValidation()}" />
 
                         <p:outputLabel for="city" value="City: " />
                         <p:selectOneMenu id="city" value="#{order.address.city}" style="width:150px">
                             <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{order.cities}" />
                         </p:selectOneMenu>
+                        <h:outputText  styleClass="#{order.nameValidationStyle ? 'success' : 'error'}"
+                                       value="#{order.nameValidation()}" />
 
                         <h:outputText value="Postal Code: " />
-                        <p:inputText value="#{order.address.postalCode}" required="true" label="postalCode" />
+                        <p:inputText value="#{order.address.postalCode}" required="true" label="postalCode" >
+                            <p:ajax update="postal-validation" listener="#{order.postalCodeValidation()}"/>
+                        </p:inputText>
+                        <h:outputText id="postal-validation"  styleClass="#{order.postalCodeValidationStyle ? 'tick' : 'error'}"
+                                      value="#{order.postalCodeValidation()}" />
 
                         <h:outputText value="Address Detail: " />
                         <p:inputTextarea value="#{order.address.detail}" required="true" label="Detail" />
+                        <h:outputText  styleClass="#{order.nameValidationStyle ? 'success' : 'error'}"
+                                       value="#{order.nameValidation()}" />
 
                         <h:outputText value=" Ship to the same address: " />
                         <h:selectBooleanCheckbox value="#{order.skip}" />
@@ -113,7 +130,7 @@
 
                         <p:outputLabel for="country" value="Country: " />
                         <p:selectOneMenu id="invoice-country" value="#{order.address2.country}" style="width:150px">
-                            <p:ajax listener="#{order.onCountryChangeBilling}" update="city" />
+                            <p:ajax listener="#{order.onCountryChangeBilling}" update="invoice-city" />
                             <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{order.countries}" />
                         </p:selectOneMenu>
@@ -121,11 +138,12 @@
                         <p:outputLabel for="invoice-city" value="City: " />
                         <p:selectOneMenu id="invoice-city" value="#{order.address2.city}" style="width:150px">
                             <f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{order.cities2}" />
+                            <f:selectItems value="#{order.cities}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Postal Code: " />
-                        <p:inputText value="#{order.address2.postalCode}" required="true" label="postalCode" />
+                        <p:inputText value="#{order.address2.postalCode}"  required="true" label="postalCode"/>
+
 
                         <h:outputText value="Address Detail: " />
                         <p:inputTextarea value="#{order.address2.detail}" required="true" label="Detail" />

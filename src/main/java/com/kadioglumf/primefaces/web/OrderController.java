@@ -44,9 +44,12 @@ public class OrderController implements Serializable {
     private Map<String,String> cities;
 
     private boolean nameValidationStyle = true;
-    private Map<String,String> cities2;
+    private boolean phoneValidationStyle = true;
+    private boolean postalCodeValidationStyle = true;
+
 
     private boolean skip;
+
 
     public boolean isSkip() {
         return skip;
@@ -73,14 +76,6 @@ public class OrderController implements Serializable {
         this.address2 = address2;
     }
 
-    public Map<String, String> getCities2() {
-        return cities2;
-    }
-
-    public void setCities2(Map<String, String> cities2) {
-        this.cities2 = cities2;
-    }
-
     public Map<String, Map<String, String>> getData() {
         return data;
     }
@@ -99,6 +94,22 @@ public class OrderController implements Serializable {
 
     public void setNameValidationStyle(boolean nameValidationStyle) {
         this.nameValidationStyle = nameValidationStyle;
+    }
+
+    public boolean isPhoneValidationStyle() {
+        return phoneValidationStyle;
+    }
+
+    public void setPhoneValidationStyle(boolean phoneValidationStyle) {
+        this.phoneValidationStyle = phoneValidationStyle;
+    }
+
+    public boolean isPostalCodeValidationStyle() {
+        return postalCodeValidationStyle;
+    }
+
+    public void setPostalCodeValidationStyle(boolean postalCodeValidationStyle) {
+        this.postalCodeValidationStyle = postalCodeValidationStyle;
     }
 
     @PostConstruct
@@ -137,9 +148,9 @@ public class OrderController implements Serializable {
 
     public void onCountryChangeBilling(){
         if (address2.getCountry() != null && !address2.getCountry().equals(""))
-            cities2 = data.get(address2.getCountry());
+            cities = data.get(address2.getCountry());
         else
-            cities2 = new HashMap<String, String>();
+            cities = new HashMap<String, String>();
     }
 
     public void save() throws CloneNotSupportedException {
@@ -169,9 +180,10 @@ public class OrderController implements Serializable {
 
     public String nameValidation() {
         if (address.getName() == null) {
+            nameValidationStyle = false;
             return "";
         }
-        if (address.getName().length() == 0) {
+        if (address.getName().length() < 3) {
             nameValidationStyle = false;
             return "Name is required!";
         } else if (address.getName().length() >= 25) {
@@ -190,6 +202,32 @@ public class OrderController implements Serializable {
         Pattern regex = Pattern.compile("[^a-zA-Z]+");
         Matcher matcher = regex.matcher(username);
         return matcher.find() ? true : false;
+    }
+
+    public String phoneValidation() {
+        if (address.getPhoneNumber() == null) {
+            phoneValidationStyle = false;
+            return "";
+        }
+        if (address.getPhoneNumber().length() != 14) {
+            phoneValidationStyle = false;
+            return "Phone must be 10 characters!";
+        } else {
+            phoneValidationStyle = true;
+            return "";
+        }
+    }
+
+    public String postalCodeValidation() {
+        if (address.getPostalCode() == 0) {
+            postalCodeValidationStyle = false;
+            return "";
+        }
+        if (address.getPhoneNumber().length() > 2) {
+            postalCodeValidationStyle = true;
+            return "";
+        }
+        return "";
     }
 
     public String onFlowProcess(FlowEvent event) {
